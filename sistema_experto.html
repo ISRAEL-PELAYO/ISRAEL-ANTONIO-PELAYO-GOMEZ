@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Experto - Registro de Prácticas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background: #007BFF;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .back-button, .clear-button {
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .back-button:hover, .clear-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sección de registro -->
+    <div id="registroSection" class="container">
+        <h1>Sistema Experto - Registro de Prácticas</h1>
+        <label for="nombre">Nombre del Alumno:</label>
+        <input type="text" id="nombre" placeholder="Escribe tu nombre">
+
+        <label for="registro">Número de Registro:</label>
+        <input type="text" id="registro" placeholder="Escribe tu número de registro">
+
+        <label for="gradoGrupo">Grado y Grupo:</label>
+        <input type="text" id="gradoGrupo" placeholder="Ejemplo: 7°F">
+
+        <label for="practica">Selecciona una práctica:</label>
+        <select id="practica">
+            <option value="">-- Seleccionar práctica --</option>
+            <option value="Calibracion">Calibración de Sensores</option>
+            <option value="Circuitos">Montaje de Circuitos</option>
+            <option value="Soldadura">Práctica de Soldadura</option>
+            <option value="Programacion">Programación de Microcontroladores</option>
+            <option value="Medición">Medición con Vernier</option>
+        </select>
+
+        <label for="material1">¿Requieres Multímetro?</label>
+        <select id="material1">
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+        </select>
+
+        <label for="material2">¿Requieres Protoboard?</label>
+        <select id="material2">
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+        </select>
+
+        <label for="material3">¿Requieres Cautín?</label>
+        <select id="material3">
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+        </select>
+
+        <label for="material4">¿Requieres Vernier?</label>
+        <select id="material4">
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+        </select>
+
+        <label for="material5">¿Requieres un Mármol?</label>
+        <select id="material5">
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+        </select>
+
+        <label for="material6">¿Requieres una Pieza?</label>
+        <select id="material6">
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+        </select>
+
+        <button onclick="registrarPractica()">Registrar Práctica</button>
+        <button onclick="mostrarBaseDatos()">Ver Base de Datos</button>
+    </div>
+
+    <!-- Sección de base de datos -->
+    <div id="baseDatosSection" class="hidden">
+        <h2>Registro de Alumnos</h2>
+        <table id="tablaRegistros">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Registro</th>
+                    <th>Grado y Grupo</th>
+                    <th>Práctica</th>
+                    <th>Multímetro</th>
+                    <th>Protoboard</th>
+                    <th>Cautín</th>
+                    <th>Vernier</th>
+                    <th>Mármol</th>
+                    <th>Pieza</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div class="button-container">
+            <a href="#" class="back-button" onclick="regresar()">Regresar</a>
+            <a href="#" class="clear-button" onclick="limpiarBaseDatos()">Limpiar Base de Datos</a>
+        </div>
+    </div>
+
+    <script>
+        // Función para registrar una práctica
+        function registrarPractica() {
+            const registro = document.getElementById("registro").value.trim();
+            const nombre = document.getElementById("nombre").value.trim();
+            const gradoGrupo = document.getElementById("gradoGrupo").value.trim();
+            const practica = document.getElementById("practica").value;
+            const material1 = document.getElementById("material1").value;
+            const material2 = document.getElementById("material2").value;
+            const material3 = document.getElementById("material3").value;
+            const material4 = document.getElementById("material4").value;
+            const material5 = document.getElementById("material5").value;
+            const material6 = document.getElementById("material6").value;
+
+            if (!registro || !nombre || !gradoGrupo) {
+                alert("Por favor, completa todos los campos de identificación.");
+                return;
+            }
+
+            if (!practica) {
+                alert("Por favor, selecciona una práctica.");
+                return;
+            }
+
+            // Crear objeto con los datos del alumno
+            const datos = {
+                nombre,
+                registro,
+                gradoGrupo,
+                practica,
+                material1,
+                material2,
+                material3,
+                material4,
+                material5,
+                material6
+            };
+
+            // Guardar en localStorage
+            let registros = JSON.parse(localStorage.getItem("registros")) || [];
+            registros.push(datos);
+            localStorage.setItem("registros", JSON.stringify(registros));
+
+            // Limpiar campos
+            document.getElementById("nombre").value = "";
+            document.getElementById("registro").value = "";
+            document.getElementById("gradoGrupo").value = "";
+            document.getElementById("practica").value = "";
+            document.getElementById("material1").value = "Sí";
+            document.getElementById("material2").value = "Sí";
+            document.getElementById("material3").value = "Sí";
+            document.getElementById("material4").value = "Sí";
+            document.getElementById("material5").value = "Sí";
+            document.getElementById("material5").value = "Sí";
+
+            alert("Práctica registrada exitosamente.");
+        }
+
+        // Función para mostrar la base de datos
+        function mostrarBaseDatos() {
+            const registros = JSON.parse(localStorage.getItem("registros")) || [];
+
+            // Llenar la tabla con los registros
+            const tabla = document.getElementById("tablaRegistros").querySelector("tbody");
+            tabla.innerHTML = "";
+
+            registros.forEach(registro => {
+                const nuevaFila = document.createElement("tr");
+                nuevaFila.innerHTML = `
+                    <td>${registro.nombre}</td>
+                    <td>${registro.registro}</td>
+                    <td>${registro.gradoGrupo}</td>
+                    <td>${registro.practica}</td>
+                    <td>${registro.material1}</td>
+                    <td>${registro.material2}</td>
+                    <td>${registro.material3}</td>
+                    <td>${registro.material4}</td>
+                    <td>${registro.material5}</td>
+                    <td>${registro.material6}</td>
+                `;
+                tabla.appendChild(nuevaFila);
+            });
+
+            // Cambiar de sección
+            document.getElementById("registroSection").classList.add("hidden");
+            document.getElementById("baseDatosSection").classList.remove("hidden");
+        }
+
+        // Función para regresar al registro de prácticas
+        function regresar() {
+            document.getElementById("baseDatosSection").classList.add("hidden");
+            document.getElementById("registroSection").classList.remove("hidden");
+        }
+
+        // Función para limpiar la base de datos
+        function limpiarBaseDatos() {
+            if (confirm("¿Estás seguro de que deseas limpiar la base de datos?")) {
+                localStorage.removeItem("registros");
+                document.getElementById("tablaRegistros").querySelector("tbody").innerHTML = "";
+                alert("Base de datos limpiada exitosamente.");
+            }
+        }
+    </script>
+</body>
+</html>
